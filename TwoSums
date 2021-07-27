@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int* twoSums(int* nums, int numsSize, int target, int* returnSize) {
+    
+    int i, j;
+    int *resultArray = (int*)malloc(2 * sizeof(int));
+    
+    if (resultArray == NULL) {
+        *returnSize = 0;
+        return NULL;
+    }
+    
+    //start at index zero, go to the end of the array plus one to not use the same number twice
+    for(i = 0; i <numsSize; j++) {
+        for(j = i + 1; j <numsSize; j++) {
+            if(nums[i] + nums[j] == target) {
+                *returnSize = 2;
+                resultArray[0] = i;
+                resultArray[1] = j;
+                return resultArray;
+            }
+        }
+    }
+    *returnSize = 0;
+    free(resultArray);
+    return NULL;
+}
+
+int main() {
+    int set[] = {1,7,11,15};
+    int returnset, target = 9;
+    int *p = NULL;
+    
+    p = twoSums(set, sizeof(set)/sizeof(set[0]), target, &returnset);
+    
+    if (returnset == 0) {
+        printf("Target not found\n");
+    }
+    else{
+        printf("Target found at indices %d and %d\n", p[0], p[1]);
+        free(p);
+    }
+    
+    return 0;
+}
