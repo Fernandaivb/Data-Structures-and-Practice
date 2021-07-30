@@ -1,0 +1,51 @@
+/*
+Java: https://leetcode.com/problems/word-search/
+Purpose: traverse through the board to find certain words
+
+board = 
+[
+    ['A','B','C', 'J'],
+    ['G','O','Y', 'O'],
+    ['L','Y','N', 'O'],
+]
+*/
+
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        // Go through all rows, then columns
+        for(int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                // Word found if first character found, along with all characters
+                if(board[i][j] == word.charAt(0) && dfs(board, i, j, 0, word)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    //dfs = depth first search
+    public boolean dfs(char[][] board, int i, int j, int count, String word) {
+        //if word is found
+        if(count == word.length()) {
+            return true;
+        }
+        
+        // ensure program does not go outside the grid
+        if(i < 0 || i >= board.length || j < 0 || j >= board[i].length || board[i][j] != word.charAt(count)) {
+            return false;
+        }
+        
+        //set board to empty space, traverse, and ensure the same letter cell is not used more than once
+        char temp = board[i][j];
+        board[i][j] = ' ';
+        boolean found = dfs(board, i + 1, j, count + 1, word)
+            || dfs(board, i - 1, j, count + 1, word)
+            || dfs(board, i, j + 1, count + 1, word)
+            || dfs(board, i, j - 1, count + 1, word);
+            
+        board [i][j] = temp;
+        return found;
+    }
+}
